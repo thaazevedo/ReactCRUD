@@ -1,34 +1,43 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router';
 import { Button, Checkbox, Form, FormField } from 'semantic-ui-react';
 
 export default function Update() {
+
+    let history = useHistory();
+
+    const [id, setID] = useState(null);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [checkbox, setCheckbox] = useState(false);
 
-    const [id, setID] = useState(null);
+    useEffect(() => {
+        setID(localStorage.getItem('ID'))
+        setFirstName(localStorage.getItem('First Name'));
+        setLastName(localStorage.getItem('Last Name'));
+        setCheckbox(localStorage.getItem('Checkbox Value'))
+
+    }, []);
+
+
     const updateAPIData = () => {
-        axios.put('https://6171afc0c20f3a001705fe7f.mockapi.io/fakeAPI/${id}', {
+        axios.put(`https://6171afc0c20f3a001705fe7f.mockapi.io/fakeAPI/${id}`, {
             firstName,
             lastName,
             checkbox
+        }).then(() => {
+            history.push('/read')
         })
     }
-    // useEffect(() => {
-    //     setID(localStorage.getItem('ID'))
-    //     setFirstName(localStorage.getItem('First Name'));
-    //     setLastName(localStorage.getItem('Last Name'));
-    //     setCheckbox(localStorage.getItem('Checkbox Value'))
-
-    // }, []);
+    
 
     return (
         <div>
-            <Form clasName="create-form">
+            <Form className="create-form">
                 
                 <FormField>
-                    <label>firstName</label>
+                    <label>First Name</label>
                     <input placeholder='First Name' value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
                 </FormField>
                 

@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import { Button, Checkbox, Form } from 'semantic-ui-react'
+import { useHistory } from 'react-router';
 
 export default function Create() {
+
+    let histore = useHistory();
 
     //Definindo estados:
     const [firstName, setFirstName] = useState('');
@@ -14,6 +17,8 @@ export default function Create() {
             firstName,
             lastName,
             checkbox
+        }).then(() => {
+            histore.push('/read')
         }) 
     }
      
